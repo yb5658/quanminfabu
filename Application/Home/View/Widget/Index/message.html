@@ -1,0 +1,28 @@
+<form class="for_2 fix" method="post" action="{:U('message')}">
+	<div class="fix pb10">
+		<input type="text"  name="title" placeholder="姓名：" class="in_4">
+	</div>
+	<div class="fix pb10">
+		<input type="text"  name="email" placeholder="邮箱：" class="in_4">
+	</div>
+	<div class="fix pb10">
+		<input type="text"  name="extend[title]" placeholder="标题：" class="in_4">
+	</div>
+	<div class="fix pb10">
+		<textarea class="te_1" name="content">留言:</textarea>
+		<script>
+			$(".te_1").focus(function(){
+				if($(this).val() == "留言:"){
+					$(this).val("");
+				}
+			}).blur(function(){
+				if($(this).val() == ""){
+					$(this).val("留言:");
+				}
+			});
+		</script>
+	</div>
+	<div class="fix pb10">
+		<input type="submit" value="提   交" class="in_5">
+	</div>
+</form>

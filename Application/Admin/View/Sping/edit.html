@@ -1,0 +1,224 @@
+<style media="screen">
+    .ms select {
+        padding:0px 10px;height:24px;border:solid 1px #d2d2d2;margin-right:10px; background:#fafafa
+    }
+    .select {width:400px;}
+    .text1{height:100px;}
+</style>
+<style media="screen">
+    /*图片集合上传*/
+    .uploadify-button{background: url(__COMMON__uploadify/image.png) center no-repeat;}
+    .uploadify-queue{}
+    .upload-pre-item{position: relative;width:120px;height:120px;float:left;margin: 5px;}
+    .upload-pre-item img {max-width: 120px;max-height: 120px;}
+    .upload-pre-item i{position: absolute;right: 0;top: 0;width: 18px;height: 18px;overflow: hidden;background-image: url(__COMMON__uploadify/icons.png);background-position: -48px 0px;margin: 10px;}
+    .upload-pre-item .xx{position: absolute;top: 80px;left: 20px;font-size: 20px;font-weight: bold;color: #000;}
+</style>
+<form action="" method="post">
+<table width="900" border="0" cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td class="td1" align="right">所属栏目：</td>
+        <td class="ms">
+            <select class="select" name="catid">
+            <volist name="cate_list" id="v">
+                <if condition="$v['type'] != $type || $v['cat']">
+                    <option value="{$v['id']}" disabled="disabled" <eq name="v['id']" value="$cate_info['id']">selected="selected"</eq>>{$v['title']}</option>
+                <else />
+                    <option value="{$v['id']}" <eq name="v['id']" value="$cate_info['id']">selected="selected"</eq>>{$v['title']}</option>
+                </if>
+            </volist>
+            </select>
+            （所属栏目）
+        </td>
+    </tr>
+    <volist name="fields" id="val">
+        <switch name="val['type']">
+            <case value="text">
+                <tr>
+                    <td class="td1" align="right">{$val['title']}：</td>
+                    <td class="ms">
+                        <eq name="val['primary']" value="1">
+                            <input type="text" name="{$key}" value="{$info[$key]|default=''}" class="inputt input" />
+                        <else />
+                            <input type="text" name="extends[{$key}]" value="{$info['extends'][$key]|default=''}" class="inputt input" />
+                        </eq>
+                        {$val['desc']}
+                    </td>
+                </tr>
+            </case>
+            <case value="textarea">
+                <tr>
+                    <td class="td1" align="right">{$val['title']}：</td>
+                    <td class="ms">
+                        <eq name="val['primary']" value="1">
+                            <textarea class="text1" name="{$key}">{$info[$key]|default=''}</textarea>
+                        <else />
+                            <textarea class="text1" name="extends[{$key}]">{$info['extends'][$key]|default=''}</textarea>
+                        </eq>
+                        {$val['desc']}
+                    </td>
+                </tr>
+            </case>
+            <case value="image">
+                <tr>
+                    <td class="td1" align="right">{$val['title']}：</td>
+                    <td class="upload-row">
+                        <eq name="val['primary']" value="1">
+                            <input type="text" name="{$key}" value="{$info[$key]|default=''}" class="inputt input3">
+                        <else />
+                            <input type="text" name="extends[{$key}]" value="{$info['extends'][$key]|default=''}" class="inputt input3">
+                        </eq>
+                        <input type="button" class="button1 cr" value="上 传">{$val['desc']}
+                    </td>
+                </tr>
+            </case>
+            <case value="images">
+                <tr>
+                    <td class="td1" align="right">图片集合：</td>
+                    <td class="ms uploads">
+                        <div class="upload-img-box">
+                            <volist name="info['images']" id="v">
+                                <div class="upload-pre-item">
+                                    <i onclick="removeImage(this)"></i>
+                                    <input type="hidden" name="images[]" value="{$v}">
+                                    <img src="{:image($v)}"/>
+                                </div>
+                            </volist>
+                            <div class="upload-pre-item">
+                                <input type="file" name="images">
+                                <div class="xx">{$val['desc']}</div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </case>
+            <case value="content">
+                <tr>
+                    <td class="td1" align="right">{$val['title']}：</td>
+                    <td class="upload-row">
+                        <eq name="val['primary']" value="1">
+                            <script id="{$key}" name="{$key}" type="text/plain">{$info[$key]|default=''|html_entity_decode}</script>
+                        <else />
+                            <script id="{$key}" name="extends[{$key}]" type="text/plain">{$info['extends'][$key]|default=''|html_entity_decode}</script>
+                        </eq>
+                    </td>
+                </tr>
+                <script>
+                    $(function(){
+                        var ue = UE.getEditor('{$key}',{
+                            serverUrl :'{:U('Admin/Tool/ueditor')}',
+                            initialFrameWidth : 800,
+                            initialFrameHeight : {$val['height']}
+                        });
+                    })
+                </script>
+            </case>
+        </switch>
+    </volist>
+
+    <tr>
+        <td class="td1" align="right">排序：</td>
+        <td class="ms">
+            <input type="text" name="sort" value="{$info['sort']|default=0}" class="inputt input" />
+            （排序sort desc, id desc）
+        </td>
+    </tr>
+<eq name="configs['allow_create_time']" value="1">
+    <tr>
+        <td class="td1" align="right">发布时间：</td>
+        <td class="ms">
+            <input type="text" name="create_time" value="<empty name="info['create_time']">{:date('Y-m-d H:i:s')}<else/>{:date('Y-m-d H:i:s',$info['create_time'])}</empty>" class="inputt input" />
+            （发布时间）
+        </td>
+    </tr>
+</eq>
+    <tr>
+        <td colspan="2" align="center">
+             <input type="hidden" name="id" value="{$info['id']|default=''}">
+             <input type="hidden" name="type" value="{$info['type']|default='News'}">
+             <input type="submit" class="tjanniu cr" value="提 交" /><input type="reset" class="czanniu cr" value="重 置" />
+        </td>
+    </tr>
+</table>
+</form>
+<script type="text/javascript" src="__COMMON__uploadify/jquery.uploadify.min.js"></script>
+<script type="text/javascript">
+$(".uploads").each(function(i){
+	var Obj = $(this),
+		Upload = $(this).find('[type=file]'),
+		Name = Upload.attr('name') ? Upload.attr('name') : 'img';
+	Upload.attr('id', 'id_' + (new Date()).getTime()+Math.floor(Math.random()*1000));
+	Upload.uploadify({
+		"height"          : 95,
+		"swf"             : "__COMMON__uploadify/uploadify.swf",
+		"fileObjName"     : "download",
+		"buttonText"      : "",
+		"uploader"        : "{:U('Tool/uploadImages',array('session_id'=>session_id()))}",
+		"width"           : 120,
+		'removeTimeout'	  : 1,
+		'multi'			  : true,
+		'fileTypeExts'	  : '*.jpg; *.png; *.gif;',
+		"onUploadSuccess" : function(file, data){
+			var data = $.parseJSON(data);
+			if(data.status){
+				Obj.find('.upload-img-box').prepend(
+					'<div class="upload-pre-item"><i onclick="removeImage(this)">    </i><input type="hidden" name="'+Name+'[]" value="' + data.path + '"/><img src="' + data.url + '"/></div>'
+				);
+			}
+		},
+		'onFallback' : function() {
+			alert('未检测到兼容版本的Flash.');
+		}
+	});
+})
+function removeImage(dom){
+	$(dom).parent().remove();
+}
+</script>
+<!-- 图片上传 -->
+<script type="text/javascript">
+    var Tool = {};
+    $(function(){
+        // 上传处理
+        Tool.uploadSend = function(){
+            $(".upload-row").each(function(i){
+                $(this).find(".button1").click(function(){
+                    window.open('{:U('Tool/uploadImage', '', '')}&id='+ i, '文件上传', 'height=100, width=400, top='+(screen.availHeight-100)/2+', left='+(screen.availWidth-400)/2+', toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+                })
+            })
+        }
+        // 绑定
+        Tool.uploadSend();
+
+        // 增加元素
+        Tool.uploadAdd = function(){
+            var html = '<div class="upload-row">';
+            html += '<span onclick="Tool.uploadDel(this)">[-]</span>  ';
+            html += '<input type="text" name="images[]" value="" class="inputt input3">  ';
+            html += '<input type="button" class="button1 cr" value="上 传">';
+            html += '</div>';
+            $(".upload-col").append(html);
+            // 绑定
+            Tool.uploadSend();
+        }
+
+        // 删除元素
+        Tool.uploadDel = function(obj){
+            $(obj).parents('.upload-row').remove();
+        }
+    })
+</script>
+
+<!-- 百度编辑器 -->
+<js href="__COMMON__js/jquery-2.0.2.js" />
+<js href="__COMMON__ueditor/ueditor.config.js" />
+<js href="__COMMON__ueditor/ueditor.all.min.js" />
+<script>
+    $(function(){
+        var ue = UE.getEditor('container',{
+            serverUrl :'{:U('Admin/Tool/ueditor')}',
+            initialFrameWidth : 800,
+            initialFrameHeight : 450
+        });
+    })
+</script>

@@ -1,0 +1,39 @@
+<style media="screen">
+    .ms select {
+        padding:0px 10px;height:24px;border:solid 1px #d2d2d2;margin-right:10px; background:#fafafa
+    }
+    .select {width:400px;}
+    .text1{height:100px;}
+</style>
+
+<table width="900" border="0" cellspacing="0" cellpadding="0" class="table">
+
+    <tr>
+        <td class="td1" align="right">姓名：</td>
+        <td class="ms">
+            <input type="text" name="title" value="{$info['title']|default=''}" class="inputt input" />
+            （姓名）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">邮箱：</td>
+        <td class="ms">
+            <input type="text" name="tel" value="{$info['tel']|default=''}" class="inputt input" />
+            （邮箱）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">预约基金名称：</td>
+        <td class="ms">
+            <input type="text" value="{$info['extend']['title']|default=''}" class="inputt input" />
+            （预约基金名称）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">金额：</td>
+        <td class="ms">
+            <input type="text" value="{$info['extend']['jine']|default=''}" class="inputt input" />
+            （万元）
+        </td>
+    </tr>
+</table>

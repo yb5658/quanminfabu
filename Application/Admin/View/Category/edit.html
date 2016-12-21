@@ -1,0 +1,305 @@
+<style media="screen">
+    .ms select {
+        padding:0px 10px;height:24px;border:solid 1px #d2d2d2;margin-right:10px; background:#fafafa
+    }
+    .select {width:400px;}
+    .text1{height:100px;}
+	.head-a{margin: 10px 0px 20px 20px; border-bottom: 3px solid #343843; line-height: 32px;}
+	.head-a a {
+	    background-color: #08A3BB;
+	    padding: 10px 20px;
+	    color: #FFF;
+	    font-weight: bold;
+	}
+	.head-a .act {background-color: #343843;}
+    .submit {margin:30px 0 0 80px;}
+</style>
+<script type="text/javascript">
+    $(function(){
+        var tabHead = $(".tab-head a");
+        var tabList = $(".tab-list table");
+        tabList.slice(1).hide();
+        tabHead.each(function(index){
+            $(this).click(function(){
+                tabHead.removeClass('act');
+                tabList.hide();
+                $(this).addClass('act');
+                tabList.eq(index).show();
+            })
+        })
+    })
+</script>
+<div class="head-a tab-head">
+	<a class="act" href="javascript:void(0);">基本选项</a>
+    <a href="javascript:void(0);">模版选项</a>
+    <a href="javascript:void(0);">SEO选项</a>
+</div>
+<form action="" method="post">
+<div class="tab-list">
+<table width="900" border="0" cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td class="td1" align="right">栏目名称：</td>
+        <td class="ms">
+            <input type="text" name="title" value="{$info['title']|default='栏目名称'}" class="inputt input" />
+            （栏目名称）
+        </td>
+    </tr>
+    <if condition="IS_ROOT && ACTION_NAME eq 'add'">
+    <tr>
+        <td class="td1" align="right">栏目名称：</td>
+        <td class="ms">
+            <textarea class="text1" name="piliang"></textarea>
+            （批量添加，换行分割）
+        </td>
+    </tr>
+    </if>
+    <tr>
+        <td class="td1" align="right">英文名称：</td>
+        <td class="ms">
+            <input type="text" name="setting[english]" value="{$info['setting']['english']|default=''}" class="inputt input" />
+            （英文名称）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">显示路径：</td>
+        <td class="ms">
+            <input type="text" name="english" value="{$info['english']|default=''}" class="inputt input" />
+            （更改对应栏目链接显示  无需求则不填  <span style="color:red;"> 不可与其他栏目相同 英文 无特殊符号 无空格 </span>）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">栏目类型：</td>
+        <td class="ms">
+            <select class="select" name="type" <if condition="$count">disabled="disabled"</if>>
+                <volist name="cateType" id="v">
+                    <option value="{$key}" <eq name="info['type']" value="$key">selected="selected"</eq>>{$v}</option>
+                </volist>
+            </select>
+            （栏目类型<if condition="$count">---<font color="red">删除该分类下的信息</font></if>）
+        </td>
+    </tr>
+    <if condition="IS_ROOT">
+    <tr>
+        <td class="td1" align="right">上级栏目：</td>
+        <td class="ms">
+            <select class="select" name="pid">
+                <option value="0">≡ 作为一级栏目 ≡</option>
+                <volist name="list" id="v">
+                    <option value="{$v['id']}" <eq name="info['pid']" value="$v['id']">selected="selected"</eq>>{$v['title']}</option>
+                </volist>
+            </select>
+            （栏目类型）
+        </td>
+    </tr>
+    <else />
+        <input type="hidden" name="pid" value="{$info['pid']}" />
+    </if>
+    <tr>
+        <td align="right">栏目图片：</td>
+        <td class="upload-row">
+            <input type="text" name="image" value="{$info['image']|default=''}" class="inputt input3">
+            <input type="button" class="button1 cr" value="上 传">建议图片尺寸：
+            <if condition="IS_ROOT">
+                <input size="8" type="text" style="padding: 0px 10px; height: 24px; line-height: 24px; border: solid 1px #d2d2d2; margin-right: 10px; background: #fafafa;" name="setting[image_size]" value="{$info['setting']['image_size']|default=''}">;
+            <else />
+                {$info['setting']['image_size']|default='请参照设计图'};
+            </if>
+            <a style="color:blue;" href="javascript:tc_div('{:image($info['image'])}');" >查看当前图片</a>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">栏目扩展图片_1：</td>
+        <td class="upload-row">
+            <input type="text" name="setting[ico_1]" value="{$info['setting']['ico_1']|default=''}" class="inputt input3">
+            <input type="button" class="button1 cr" value="上 传"> 依需求选择上传 尺寸:
+            <if condition="IS_ROOT">
+                <input size="8" type="text" style="padding: 0px 10px; height: 24px; line-height: 24px; border: solid 1px #d2d2d2; margin-right: 10px; background: #fafafa;" name="setting[image_size1]" value="{$info['setting']['image_size1']|default=''}">;
+            <else />
+                {$info['setting']['image_size1']|default='请参照设计图'};
+            </if>
+            <a style="color:blue;" href="javascript:tc_div('{:image($info['setting']['ico_1'])}');" >查看当前图片</a>
+        </td>
+    </tr>
+    <tr>
+        <td align="right">栏目扩展图片_2：</td>
+        <td class="upload-row">
+            <input type="text" name="setting[ico_2]" value="{$info['setting']['ico_2']|default=''}" class="inputt input3">
+            <input type="button" class="button1 cr" value="上 传"> 依需求选择上传 尺寸:
+            <if condition="IS_ROOT">
+                <input size="8" type="text" style="padding: 0px 10px; height: 24px; line-height: 24px; border: solid 1px #d2d2d2; margin-right: 10px; background: #fafafa;" name="setting[image_size2]" value="{$info['setting']['image_size2']|default=''}">;
+            <else />
+                {$info['setting']['image_size2']|default='请参照设计图'};
+            </if>
+            <a style="color:blue;" href="javascript:tc_div('{:image($info['setting']['ico_2'])}');" >查看当前图片</a>
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">栏目描述：</td>
+        <td class="ms">
+            <textarea class="text1" name="description">{$info['description']|default=''}</textarea>
+            （栏目描述）
+        </td>
+    </tr>
+	<tr>
+        <td class="td1" align="right">导航显示：</td>
+        <td class="ms">
+            <select class="select" name="display">
+                    <option value="1" <eq name="info['display']" value="1">selected="selected"</eq>>显示</option>
+                    <option value="0" <eq name="info['display']" value="0">selected="selected"</eq>>隐藏</option>
+            </select>
+            （状态）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">栏目排序：</td>
+        <td class="ms">
+            <input type="text" name="sort" value="{$info['sort']|default=0}" class="inputt input" />
+            （栏目排序）
+        </td>
+    </tr>
+    <if condition="IS_ROOT">
+    <tr>
+        <td class="td1" align="right">允许子级：</td>
+        <td class="ms">
+            <select class="select" name="setting[allow_child]">
+                    <option value="0" <eq name="info['setting']['allow_child']" value="0">selected="selected"</eq>>不允许</option>
+                    <option value="1" <eq name="info['setting']['allow_child']" value="1">selected="selected"</eq>>允许</option>
+            </select>
+            （状态）
+        </td>
+    </tr>
+    <else />
+        <input type="hidden" name="setting[allow_child]" value="{$info['setting']['allow_child']}" />
+    </if>
+    <if condition="IS_ROOT">
+    <tr>
+        <td class="td1" align="right">允许删除：</td>
+        <td class="ms">
+            <select class="select" name="setting[allow_del]">
+                    <option value="1" <eq name="info['setting']['allow_del']" value="1">selected="selected"</eq>>允许</option>
+                    <option value="0" <eq name="info['setting']['allow_del']" value="0">selected="selected"</eq>>不允许</option>
+            </select>
+            （状态）
+        </td>
+    </tr>
+    <else />
+        <input type="hidden" name="setting[allow_del]" value="{$info['setting']['allow_del']|default='1'}" />
+    </if>
+</table>
+<table width="900" border="0" cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td class="td1" align="right">栏目分页数：</td>
+        <td class="ms">
+            <input type="text" name="setting[page_num]" value="{$info['setting']['page_num']|default=''}" class="inputt input" />
+            （正整数）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">栏目页模板：</td>
+        <td class="ms">
+            <select class="select" name="setting[column_template]">
+                <option value="">默认模版(无)</option>
+                <volist name="template['column']" id="val">
+                    <option value="{$val['filename']}" <eq name="val['filename']" value="$info['setting']['column_template']">selected</eq>>{$val['filename']}（{$val['title']}）</option>
+                </volist>
+            </select>
+            （栏目页模板-目前先手工书写吧）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">列表页模板：</td>
+        <td class="ms">
+            <!-- <input type="text" name="setting[list_template]" value="{$info['setting']['list_template']|default=''}" class="inputt input" /> -->
+            <select class="select" name="setting[list_template]">
+                <option value="">默认模版</option>
+                <volist name="template['lists']" id="val">
+                    <option value="{$val['filename']}" <eq name="val['filename']" value="$info['setting']['list_template']">selected</eq>>{$val['filename']}（{$val['title']}）</option>
+                </volist>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">内容页模板：</td>
+        <td class="ms">
+            <!-- <input type="text" name="setting[show_template]" value="{$info['setting']['show_template']|default=''}" class="inputt input" /> -->
+            <select class="select" name="setting[show_template]">
+                <option value="">默认模版</option>
+                <volist name="template['show']" id="val">
+                    <option value="{$val['filename']}" <eq name="val['filename']" value="$info['setting']['show_template']">selected</eq>>{$val['filename']}（{$val['title']}）</option>
+                </volist>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">单页模板：</td>
+        <td class="ms">
+            <!-- <input type="text" name="setting[page_template]" value="{$info['setting']['page_template']|default=''}" class="inputt input" /> -->
+            <select class="select" name="setting[page_template]">
+                <option value="">默认模版</option>
+                <volist name="template['pages']" id="val">
+                    <option value="{$val['filename']}" <eq name="val['filename']" value="$info['setting']['page_template']">selected</eq>>{$val['filename']}（{$val['title']}）</option>
+                </volist>
+            </select>
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">跳转栏目：</td>
+        <td class="ms">
+            <select class="select" name="setting[location_catid]">
+                <option value="0">≡ 第一个子级 ≡</option>
+                <option value="{$info['id']}">≡ 不跳 ≡</option>
+                <volist name="list" id="v">
+                    <option value="{$v['id']}" <eq name="info['setting']['location_catid']" value="$v['id']">selected="selected"</eq>>{$v['title']}</option>
+                </volist>
+            </select>
+            （跳转栏目：默认跳转第一个子级）
+        </td>
+    </tr>
+</table>
+<table width="900" border="0" cellspacing="0" cellpadding="0" class="table">
+    <tr>
+        <td class="td1" align="right">META Title：</td>
+        <td class="ms">
+            <input type="text" name="setting[meta_title]" value="{$info['setting'][meta_title]|default=''}" class="inputt input" />
+            （栏目标题针对搜索引擎设置的标题）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">META Keywords：</td>
+        <td class="ms">
+            <textarea class="text1" name="setting[meta_keywords]">{$info['setting'][meta_keywords]|default=''}</textarea>
+            （栏目关键词关键字中间用半角逗号隔开）
+        </td>
+    </tr>
+    <tr>
+        <td class="td1" align="right">META Description：</td>
+        <td class="ms">
+            <textarea class="text1" name="setting[meta_description]">{$info['setting']['meta_description']|default=''}</textarea>
+            （栏目描述针对搜索引擎设置的网页描述）
+        </td>
+    </tr>
+
+</table>
+</div>
+
+<div class="submit">
+    <input type="hidden" name="id" value="{$info['id']|default=''}">
+    <input type="submit" class="tjanniu cr" value="提 交" /><input type="reset" class="czanniu cr" value="重 置" />
+</div>
+</form>
+<!-- 图片上传 -->
+<script type="text/javascript">
+    var Tool = {};
+    $(function(){
+        // 上传处理
+        Tool.uploadSend = function(){
+            $(".upload-row").each(function(i){
+                $(this).find(".button1").click(function(){
+                    window.open('{:U('Tool/uploadImage', '', '')}&id='+ i, '文件上传', 'height=100, width=400, top='+(screen.availHeight-100)/2+', left='+(screen.availWidth-400)/2+', toolbar=no, menubar=no, scrollbars=no, resizable=no,location=no, status=no');
+                })
+            })
+        }
+        // 绑定
+        Tool.uploadSend();
+    })
+</script>

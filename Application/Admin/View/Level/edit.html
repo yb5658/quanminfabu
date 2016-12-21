@@ -1,0 +1,93 @@
+<style media="screen">
+    .ms select {
+        padding:0px 10px;height:24px;border:solid 1px #d2d2d2;margin-right:10px; background:#fafafa
+    }
+    .select {width:400px;}
+    .text1{height:100px;}
+	.head-a{margin: 10px 0px 20px 20px; border-bottom: 3px solid #343843; line-height: 32px;}
+	.head-a a {
+	    background-color: #08A3BB;
+	    padding: 10px 20px;
+	    color: #FFF;
+	    font-weight: bold;
+	}
+	.head-a .act {background-color: #343843;}
+    .submit {margin:30px 0 0 80px;}
+</style>
+<style media="screen">
+    /*图片集合上传*/
+    .uploadify-button{background: url(__COMMON__uploadify/image.png) center no-repeat;}
+    .uploadify-queue{}
+    .upload-pre-item{position: relative;width:120px;height:120px;float:left;margin: 5px;}
+    .upload-pre-item img {max-width: 120px;max-height: 120px;}
+    .upload-pre-item i{position: absolute;right: 0;top: 0;width: 18px;height: 18px;overflow: hidden;background-image: url(__COMMON__uploadify/icons.png);background-position: -48px 0px;margin: 10px;}
+    .upload-pre-item .xx{position: absolute;top: 80px;left: 20px;font-size: 20px;font-weight: bold;color: #000;}
+</style>
+<script type="text/javascript">
+    $(function(){
+        var tabHead = $(".tab-head a");
+        var tabList = $(".tab-list table");
+        tabList.slice(1).hide();
+        tabHead.each(function(index){
+            $(this).click(function(){
+                tabHead.removeClass('act');
+                tabList.hide();
+                $(this).addClass('act');
+                tabList.eq(index).show();
+            })
+        })
+    })
+</script>
+<div class="head-a tab-head">
+	<a class="act" href="javascript:void(0);">基本内容</a>
+</div>
+<form action="" method="post">
+<div class="tab-list">
+
+<table width="900" border="0" cellspacing="0" cellpadding="0" class="table">
+    <volist name="fields" id="val">
+        <switch name="val['type']">
+            <case value="text">
+                <tr>
+                    <td class="td1" align="right">{$val['title']}：</td>
+                    <td class="ms">
+                        <eq name="val['primary']" value="1">
+                            <input type="text" name="{$key}" value="{$info[$key]|default=''}" class="inputt input" />
+                        <else />
+                            <input type="text" name="extends[{$key}]" value="{$info['extends'][$key]|default=''}" class="inputt input" />
+                        </eq>
+                        {$val['desc']}
+                    </td>
+                </tr>
+            </case>
+            <case value="textarea">
+                <tr>
+                    <td class="td1" align="right">{$val['title']}：</td>
+                    <td class="ms">
+                        <eq name="val['primary']" value="1">
+                            <textarea class="text1" name="{$key}">{$info[$key]|default=''}</textarea>
+                        <else />
+                            <textarea class="text1" name="extends[{$key}]">{$info['extends'][$key]|default=''}</textarea>
+                        </eq>
+                        {$val['desc']}
+                    </td>
+                </tr>
+            </case>            
+        </switch>
+    </volist>
+<eq name="configs['allow_create_time']" value="1">
+    <tr>
+        <td class="td1" align="right">发布时间：</td>
+        <td class="ms">
+            <input type="text" name="create_time" value="<empty name="info['create_time']">{:date('Y-m-d H:i:s')}<else/>{:date('Y-m-d H:i:s',$info['create_time'])}</empty>" class="inputt input" />
+            （发布时间）
+        </td>
+    </tr>
+</eq>
+</table>
+</div>
+<div class="submit">
+     <input type="hidden" name="id" value="{$info['id']|default=''}">
+     <input type="submit" class="tjanniu cr" value="提 交" /><input type="reset" class="czanniu cr" value="重 置" />
+</div>
+</form>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="target-densitydpi=device-dpi, width=640px, user-scalable=no">
+    <title>{$meta_title}</title>
+	  <meta name="keywords" content="{$meta_keywords}">
+  	<meta name="description" content="{$meta_description}">
+    <link rel="stylesheet" href="__CSS__common.css" />
+   <link rel="stylesheet" href="__CSS__cssreset.css" />
+   <block name="new_css"><link rel="stylesheet" href="__CSS__main2.css" /></block>
+   <link rel="stylesheet" href="__CSS__swiper.min.css" />
+   <script src="__JS__jquery.js"></script>
+   <script src="__JS__hqjs.js"></script>
+   <script src="__JS__swiper.min.js"></script>
+    <block name="new_js"></block>
+</head>
+<body  <notempty name="beijing">class="bg_1"</notempty>>
+<block name="header">
+  <section class="y_header fix">
+         <div class="y_logo fl"><a href="01全民发布-首页.html" title=""><img src="__IMG__pic2.png" alt=""></a></div>
+         <div class="y_search fl fix">
+             <input type="submit" name="button" id="button" value="" class="btn fl" />
+             <input type="text" name="user_search" placeholder="请输入关键字" class="wbk1 fl" />
+         </div>
+         <div class="y_anniu fr"><a href="javascript:void(0)" title=""><img src="__IMG__pic4.png" alt=""></a></div>
+         <div class="y_nav">
+             <h2></h2>
+             <ul>
+                 <li><a href="#" title="">店铺管理</a></li>
+                 <li><a href="#" title="">申请店铺</a></li>
+                 <li><a href="#" title="">平台客服</a></li>
+                 <li><a href="#" title="">关于我们</a></li>
+                 <li><a href="#" title="">帮助中心</a></li>
+             </ul>
+         </div>
+     </section>
+</block>
+<block name="main"></block>
+<block name="footer">
+  <footer>
+         <a href="#" class="fot_a1">首页</a>
+         <a href="#" class="fot_a2">商品分类</a>
+         <a href="#" class="fot_a3">分享兜<span>1</span></a>
+         <a href="{:U('User/index')}" class="fot_a4">个人中心</a>
+     </footer>
+</block>
+</body>
+</html>

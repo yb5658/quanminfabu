@@ -1,0 +1,14 @@
+<!-- 详情页 --><extend name="Public/base" /><block name="content"><div class="div_R fr fix">
+	<div class="div_24 fix">
+		<span class="sp_5 fl">{$CAT['title']}</span>
+		<span class="sp_6 fr">当前位置所在：{:catpos($catid, ' — ')}</span>
+	</div>
+	<div class="div_32 fix pt30">
+		<h2>{$info['title']}</h2>
+		<h3>发布时间：{:date('Y-m-d',$info['create_time'])}</h3>
+	</div>
+	<div class="danye fix pt20 tongyong">
+		{$info['content']}
+	</div>
+</div>
+</block>
